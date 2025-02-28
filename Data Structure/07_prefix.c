@@ -4,18 +4,19 @@
 #include <math.h>
 #include <ctype.h>
 int top=-1;int operand[100];
-int evalPostfixExpression(char *exp){
+int evalPrefixExpression(char *exp){
     int size = strlen(exp);
     for (int i = size-1;i>=0;i--){
         char ch =exp[i];
-        if(isdigit(ch)){
-            int num=0;
-        while(isdigit(exp[i])){
-            num=num*10+exp[i]-48;
-        
+        if (isdigit(ch)) {
+            int num = 0;
+            int power = 1;
+            while (i >= 0 && isdigit(exp[i])) {
+                num = num + (exp[i] - '0') * power;
+                power *= 10;
+                i--;
+            }
             i++;
-        }
-        i--;
             operand[++top]=num;
         }
         else if(ch=='+'||ch=='-'||ch=='*'||ch=='/'||ch=='^'){
@@ -43,9 +44,9 @@ int evalPostfixExpression(char *exp){
 int main(){
     system("cls");
         char str[100];
-        printf("Enter Postfix Expression : ");
+        printf("Enter Prefix Expression : ");
         gets(str);
-        int result=evalPostfixExpression(str);
+        int result=evalPrefixExpression(str);
         printf("result=%d\n",result);
     
         return 0;
